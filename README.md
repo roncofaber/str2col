@@ -1,13 +1,13 @@
 # str2col
 
-Map any value to a color. The same input always produces the same color.
+Deterministically map any value to a color.
 
 ```python
 from str2col import Str2Col, str2col
 
 # one-off
-str2col("hello")              # "#a3c9f1"
-str2col("hello", fmt="rgb")   # (163, 201, 241)
+str2col("hello")              # "#41eaa0"
+str2col("hello", fmt="rgb")   # (65, 234, 160)
 
 # reusable converter with constraints
 conv = Str2Col(seed="myapp", hue_range=(180, 300), sat_range=(0.5, 0.8))
@@ -18,15 +18,13 @@ conv.to_ansi_fg("label A")    # "\033[38;2;...m"
 conv.to_ansi_bg("label A")    # "\033[48;2;...m"
 ```
 
-Any type works: strings, ints, floats, `None`.
+Supported types: strings, ints, floats, `None`.
 
 ## Install
 
 ```bash
 pip install str2col
 ```
-
-No runtime dependencies.
 
 ## CLI
 
