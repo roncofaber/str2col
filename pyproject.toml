@@ -5,9 +5,19 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "str2col"
 version = "0.1.0"
-description = "Deterministically map any value to a color"
+description = "Map any value to a deterministic color"
 requires-python = ">=3.9"
 dependencies = []
+license = { text = "MIT" }
+keywords = ["color", "hash", "terminal", "ansi", "cli"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/roncofaber/str2col"
 
 [project.scripts]
 str2col = "str2col.cli:main"
