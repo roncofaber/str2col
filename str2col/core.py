@@ -5,9 +5,11 @@ import colorsys
 def _hash_value(value, seed):
     key = str(value) if seed is None else f"{value}{seed}"
     digest = hashlib.md5(key.encode()).digest()
-    h = int.from_bytes(digest[0:4], "big") / 0xFFFFFFFF
-    s = int.from_bytes(digest[4:8], "big") / 0xFFFFFFFF
-    l = int.from_bytes(digest[8:12], "big") / 0xFFFFFFFF
+    c = [int.from_bytes(digest[i*4:(i+1)*4], "big") for i in range(4)]
+    mask = 0xFFFFFFFF
+    h = ((c[0] + c[3]) & mask) / mask
+    s = ((c[1] + c[3]) & mask) / mask
+    l = ((c[2] + c[3]) & mask) / mask
     return h, s, l
 
 
