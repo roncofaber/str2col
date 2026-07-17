@@ -57,19 +57,16 @@ class Str2Col:
         return f"\033[48;2;{r};{g};{b}m"
 
 
-def str2col(value, seed=None, hue_range=(0, 360), sat_range=(0.4, 0.9), light_range=(0.35, 0.65), fmt="hex"):
+_FMT_MAP = {
+    "hex": "to_hex",
+    "rgb": "to_rgb",
+    "rgb_float": "to_rgb_float",
+    "hsl": "to_hsl",
+    "ansi_fg": "to_ansi_fg",
+    "ansi_bg": "to_ansi_bg",
+}
+
+
+def str2col(value, fmt="hex", seed=None, hue_range=(0, 360), sat_range=(0.4, 0.9), light_range=(0.35, 0.65)):
     conv = Str2Col(seed=seed, hue_range=hue_range, sat_range=sat_range, light_range=light_range)
-    if fmt == "hex":
-        return conv.to_hex(value)
-    elif fmt == "rgb":
-        return conv.to_rgb(value)
-    elif fmt == "rgb_float":
-        return conv.to_rgb_float(value)
-    elif fmt == "hsl":
-        return conv.to_hsl(value)
-    elif fmt == "ansi_fg":
-        return conv.to_ansi_fg(value)
-    elif fmt == "ansi_bg":
-        return conv.to_ansi_bg(value)
-    else:
-        raise ValueError(f"Unknown format: {fmt}")
+    return getattr(conv, _FMT_MAP[fmt])(value)

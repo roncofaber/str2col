@@ -1,6 +1,6 @@
 import re
 import pytest
-from str2col import Str2Col
+from str2col import Str2Col, str2col
 
 HEX_RE = re.compile(r"^#[0-9a-f]{6}$")
 
@@ -79,3 +79,30 @@ def test_non_string_inputs():
     assert HEX_RE.match(conv.to_hex(42))
     assert HEX_RE.match(conv.to_hex(3.14))
     assert HEX_RE.match(conv.to_hex(None))
+
+
+def test_str2col_default_returns_hex():
+    assert HEX_RE.match(str2col("hello"))
+
+
+def test_str2col_matches_class():
+    assert str2col("hello") == Str2Col().to_hex("hello")
+
+
+def test_str2col_fmt_rgb():
+    result = str2col("hello", fmt="rgb")
+    assert isinstance(result, tuple) and len(result) == 3
+
+
+def test_str2col_fmt_hsl():
+    hue, sat, light = str2col("hello", fmt="hsl")
+    assert 0 <= hue <= 360
+
+
+def test_str2col_with_seed():
+    assert str2col("hello", seed="x") != str2col("hello", seed="y")
+
+
+def test_str2col_invalid_fmt():
+    with pytest.raises(KeyError):
+        str2col("hello", fmt="invalid")
